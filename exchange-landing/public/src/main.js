@@ -34,30 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const applyForm = document.getElementById('apply-form');
   const nameInput = document.getElementById('user-name');
   const phoneInput = document.getElementById('user-phone');
-  const sendCodeBtn = document.getElementById('send-code');
-  const codeInput = document.getElementById('verify-code');
   const accountInfo = document.getElementById('account-info');
-
-  // 인증번호 발송 버튼 활성화
-  function checkSendCodeEnable() {
-    sendCodeBtn.disabled = !(nameInput.value && phoneInput.value);
-  }
-  nameInput.addEventListener('input', checkSendCodeEnable);
-  phoneInput.addEventListener('input', checkSendCodeEnable);
-  checkSendCodeEnable();
-
-  // 인증번호 발송(백엔드 연동은 추후)
-  sendCodeBtn.addEventListener('click', () => {
-    if (!nameInput.value || !phoneInput.value) return;
-    sendCodeBtn.disabled = true;
-    sendCodeBtn.textContent = '발송됨';
-    setTimeout(() => {
-      sendCodeBtn.disabled = false;
-      sendCodeBtn.textContent = '인증번호 발송';
-    }, 60000); // 60초 후 재활성화
-    // TODO: 백엔드 연동(sendCode API)
-    alert('인증번호가 발송되었습니다.');
-  });
 
   // 신청폼 제출(기본 submit 막기)
   applyForm.addEventListener('submit', async (e) => {
