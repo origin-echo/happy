@@ -76,9 +76,21 @@
           <label style="display:block;margin-bottom:0.7rem;">이름<br>
             <input type="text" id="buy-user-name" required style="width:100%;padding:0.5rem;margin-top:0.2rem;">
           </label>
-          <label style="display:block;margin-bottom:1.1rem;">연락처<br>
+          <label style="display:block;margin-bottom:0.7rem;">연락처<br>
             <input type="tel" id="buy-user-phone" required style="width:100%;padding:0.5rem;margin-top:0.2rem;">
           </label>
+          <label style="display:block;margin-bottom:0.7rem;">금액<br>
+            <input type="number" id="buy-amount" required placeholder="금액 입력" style="width:100%;padding:0.5rem;margin-top:0.2rem;">
+          </label>
+          <div style="display:flex;gap:0.5rem;margin-bottom:1.1rem;flex-wrap:wrap;align-items:center;">
+            <button type="button" class="amount-btn" data-amount="10000" style="background:#edf2fa;color:#2b6cb0;font-weight:700;">1만</button>
+            <button type="button" class="amount-btn" data-amount="50000" style="background:#edf2fa;color:#2b6cb0;font-weight:700;">5만</button>
+            <button type="button" class="amount-btn" data-amount="100000" style="background:#edf2fa;color:#2b6cb0;font-weight:700;">10만</button>
+            <button type="button" class="amount-btn" data-amount="1000000" style="background:#edf2fa;color:#2b6cb0;font-weight:700;">100만</button>
+            <button type="button" class="amount-clear-btn" title="지우기" style="background:none;padding:0 0.7rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+            </button>
+          </div>
           <button type="submit" style="width:100%;padding:0.7rem 0;font-size:1.1rem;font-weight:600;background:#2b6cb0;color:#fff;border:none;border-radius:0.7rem;cursor:pointer;">신청하기</button>
         </form>
         <div id="buy-account-info" style="display:none;margin-top:1.5rem;"></div>
