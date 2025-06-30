@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 페이지</title>
+  <link rel="stylesheet" href="../src/style.css">
+  <style>
+    .admin-wrap { max-width: 900px; margin: 2.5rem auto; background: #fff; border-radius: 1.2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 2rem 1.5rem; }
+    .admin-title { text-align: center; color: #2b6cb0; font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
+    .admin-login-form { display: flex; flex-direction: column; align-items: center; gap: 1rem; margin: 4rem auto 2rem auto; max-width: 340px; background: #f8fafc; border-radius: 1rem; padding: 2rem 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .admin-login-form input { padding: 0.6rem 1rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1.1rem; width: 100%; }
+    .admin-login-form button { padding: 0.7rem 1.2rem; background: #2b6cb0; color: #fff; border: none; border-radius: 0.5rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; width: 100%; }
+    .admin-login-form button:hover { background: #174e8a; }
+    .admin-login-error { color: #e53e3e; font-size: 1.05rem; margin-top: 0.5rem; text-align: center; }
+    .admin-content { display: none; }
+    .admin-content.active { display: block; }
+    .admin-config-form { display: flex; flex-wrap: wrap; gap: 0.7rem 1.2rem; align-items: flex-end; margin-bottom: 1.5rem; background: #f8fafc; border-radius: 0.7rem; padding: 1.2rem 1rem; }
+    .admin-config-form label { display: flex; flex-direction: column; font-size: 0.98rem; color: #2b6cb0; font-weight: 600; }
+    .admin-config-form input, .admin-config-form textarea { margin-top: 0.2rem; padding: 0.4rem 0.7rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; }
+    .admin-config-form textarea { min-width: 180px; min-height: 2.2rem; }
+    .admin-config-form button { padding: 0.5rem 1.2rem; background: #2b6cb0; color: #fff; border: none; border-radius: 0.5rem; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+    .admin-config-form button:hover { background: #174e8a; }
+    .admin-config-msg { margin-left: 1.2rem; color: #1a7f37; font-size: 1rem; font-weight: 500; }
+    .admin-search { display: flex; gap: 0.7rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+    .admin-search input { padding: 0.5rem 0.7rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; }
+    .admin-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+    .admin-table th, .admin-table td { border: 1px solid #e2e8f0; padding: 0.7rem 0.5rem; text-align: center; font-size: 1rem; }
+    .admin-table th { background: #f3f6fa; color: #2b6cb0; font-weight: 700; }
+    .admin-table td { color: #333; }
+    .admin-empty { text-align: center; color: #888; font-size: 1.1rem; margin: 2rem 0; }
+    .admin-download-btn { margin-bottom: 1.2rem; padding: 0.5rem 1.2rem; background: #4a90e2; color: #fff; border: none; border-radius: 0.5rem; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+    .admin-download-btn:hover { background: #2b6cb0; }
+    .admin-download-msg { margin-left: 1.2rem; color: #1a7f37; font-size: 1rem; font-weight: 500; }
+    @media (max-width: 700px) { .admin-wrap { padding: 1.2rem 0.5rem; } .admin-table th, .admin-table td { font-size: 0.95rem; padding: 0.5rem 0.2rem; } .admin-search { flex-direction: column; gap: 0.5rem; } .admin-config-form { flex-direction: column; gap: 0.7rem 0; } }
+  </style>
+</head>
+<body>
+  <div class="admin-wrap">
+    <div class="admin-title">교환내역 관리자</div>
+    <form class="admin-login-form" id="admin-login-form">
+      <input type="text" id="admin-id" placeholder="관리자 아이디" autocomplete="username" required>
+      <input type="password" id="admin-pw" placeholder="비밀번호" autocomplete="current-password" required>
+      <button type="submit">로그인</button>
+      <div class="admin-login-error" id="admin-login-error"></div>
+    </form>
+    <div class="admin-content" id="admin-content">
+      <form class="admin-config-form" id="config-form">
+        <label>은행명<input type="text" id="bank" required></label>
+        <label>계좌번호<input type="text" id="account" required></label>
+        <label>예금주<input type="text" id="owner" required></label>
+        <label>수수료율(%)<input type="number" id="fee" min="0" max="100" required></label>
+        <label>공지사항<textarea id="notice" placeholder="공지사항 입력(선택)"></textarea></label>
+        <button type="submit">저장</button>
+        <span class="admin-config-msg" id="config-msg"></span>
+      </form>
+      <button class="admin-download-btn" id="download-btn">내역 다운로드</button><span class="admin-download-msg" id="download-msg"></span>
+      <div class="admin-search">
+        <input type="text" id="search-name" placeholder="이름 검색">
+        <input type="text" id="search-phone" placeholder="연락처 검색">
+        <input type="text" id="search-gift" placeholder="상품권명 검색">
+      </div>
+      <div id="admin-table-wrap"></div>
+    </div>
+  </div>
+  <script>
+    // 로그인 로직
+    function showAdminContent() {
+      document.getElementById('admin-login-form').style.display = 'none';
+      document.getElementById('admin-content').classList.add('active');
+    }
+    function hideAdminContent() {
+      document.getElementById('admin-login-form').style.display = '';
+      document.getElementById('admin-content').classList.remove('active');
+    }
+    function isLoggedIn() {
+      return localStorage.getItem('admin-login') === 'ok';
+    }
+    if (isLoggedIn()) showAdminContent();
+    document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const id = document.getElementById('admin-id').value.trim();
+      const pw = document.getElementById('admin-pw').value.trim();
+      const err = document.getElementById('admin-login-error');
+      err.textContent = '';
+      if (id === 'happy8778' && pw === '8778') {
+        localStorage.setItem('admin-login', 'ok');
+        showAdminContent();
+      } else {
+        err.textContent = '아이디 또는 비밀번호가 올바르지 않습니다.';
+      }
+    });
+    // 로그아웃 기능(필요시)
+    // localStorage.removeItem('admin-login');
+
+    // 이하 기존 관리자 JS (admin-content 내부에서만 동작)
+    // 계좌/수수료/공지 불러오기
+    async function loadConfig() {
+      try {
+        const res = await fetch('/.netlify/functions/updateBank');
+        const config = await res.json();
+        if (config.bank) document.getElementById('bank').value = config.bank;
+        if (config.account) document.getElementById('account').value = config.account;
+        if (config.owner) document.getElementById('owner').value = config.owner;
+        if (typeof config.fee !== 'undefined') document.getElementById('fee').value = config.fee;
+        if (config.notice) document.getElementById('notice').value = config.notice;
+      } catch {}
+    }
+    if (isLoggedIn()) loadConfig();
+    document.getElementById('config-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('config-msg');
+      msg.textContent = '';
+      try {
+        const res = await fetch('/.netlify/functions/updateBank', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bank: document.getElementById('bank').value,
+            account: document.getElementById('account').value,
+            owner: document.getElementById('owner').value,
+            fee: document.getElementById('fee').value,
+            notice: document.getElementById('notice').value
+          })
+        });
+        const result = await res.json();
+        if (!result.success) throw new Error(result.error || '저장 실패');
+        msg.textContent = '저장 완료!';
+        msg.style.color = '#1a7f37';
+      } catch (err) {
+        msg.textContent = '저장 실패';
+        msg.style.color = '#e53e3e';
+      }
+    });
+    document.getElementById('download-btn').addEventListener('click', async () => {
+      const msg = document.getElementById('download-msg');
+      msg.textContent = '';
+      try {
+        const res = await fetch('/.netlify/functions/downloadLog');
+        if (!res.ok) throw new Error('다운로드 실패');
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'exchange-history.csv';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+        msg.textContent = '다운로드 완료!';
+        msg.style.color = '#1a7f37';
+      } catch (err) {
+        msg.textContent = '다운로드 실패';
+        msg.style.color = '#e53e3e';
+      }
+    });
+    let allData = [];
+    async function loadAdminHistory() {
+      const wrap = document.getElementById('admin-table-wrap');
+      try {
+        const res = await fetch('/.netlify/functions/getHistory');
+        const data = await res.json();
+        allData = Array.isArray(data) ? data : [];
+        renderTable();
+      } catch (e) {
+        wrap.innerHTML = '<div class="admin-empty">내역을 불러올 수 없습니다.</div>';
+      }
+    }
+    function renderTable() {
+      const wrap = document.getElementById('admin-table-wrap');
+      const nameVal = document.getElementById('search-name').value.trim();
+      const phoneVal = document.getElementById('search-phone').value.trim();
+      const giftVal = document.getElementById('search-gift').value.trim();
+      let filtered = allData.filter(row => {
+        return (!nameVal || (row.name||'').includes(nameVal)) &&
+               (!phoneVal || (row.phone||'').includes(phoneVal)) &&
+               (!giftVal || (row.gift||'').includes(giftVal));
+      });
+      if (filtered.length === 0) {
+        wrap.innerHTML = '<div class="admin-empty">검색 결과가 없습니다.</div>';
+        return;
+      }
+      let html = '<table class="admin-table"><thead><tr>' +
+        '<th>신청일시</th><th>이름</th><th>연락처</th><th>상품권</th><th>금액</th><th>입금계좌</th>' +
+        '</tr></thead><tbody>';
+      for (const row of filtered) {
+        html += `<tr><td>${row.date||''}</td><td>${row.name||''}</td><td>${row.phone||''}</td><td>${row.gift||''}</td><td>${row.amount||''}</td><td>${row.account||''}</td></tr>`;
+      }
+      html += '</tbody></table>';
+      wrap.innerHTML = html;
+    }
+    document.getElementById('search-name').addEventListener('input', renderTable);
+    document.getElementById('search-phone').addEventListener('input', renderTable);
+    document.getElementById('search-gift').addEventListener('input', renderTable);
+    if (isLoggedIn()) loadAdminHistory();
+  </script>
+</body>
+</html> 

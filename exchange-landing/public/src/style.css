@@ -1,0 +1,255 @@
+/* style.css - 공통 스타일 */ 
+
+/* Pretendard, Noto Sans, Apple SD Gothic 등 한글 웹폰트 적용 (CDN은 html에서 추가 권장) */
+body {
+  font-family: 'Pretendard', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+  background: #f8fafc;
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+.header {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  padding: 1.2rem 1.5rem 0.8rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2b6cb0;
+  margin: 0;
+}
+.header nav {
+  display: flex;
+  gap: 1.2rem;
+}
+.header nav a {
+  color: #4a90e2;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+.header nav a:hover {
+  color: #2b6cb0;
+}
+main {
+  max-width: 480px;
+  margin: 2rem auto 0 auto;
+  padding: 0 1rem 2rem 1rem;
+}
+.gift-list-section h2,
+.calc-section h2,
+.apply-section h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+.gift-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+.gift-card {
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0.5rem 0.7rem 0.5rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border 0.2s;
+  border: 2px solid transparent;
+}
+.gift-card.selected {
+  border: 2px solid #4a90e2;
+  box-shadow: 0 4px 16px rgba(74,144,226,0.08);
+}
+.gift-card img {
+  width: 120px;
+  height: 48px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  background: #f3f6fa;
+}
+.gift-card span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+.calc-section, .apply-section {
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1.2rem 1rem 1.5rem 1rem;
+  margin-bottom: 1.5rem;
+}
+label {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #444;
+}
+input[type="text"],
+input[type="tel"],
+input[type="number"] {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+  margin-top: 0.3rem;
+  background: #f8fafc;
+  transition: border 0.2s;
+}
+input:focus {
+  border: 1.5px solid #4a90e2;
+  outline: none;
+}
+button {
+  background: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  transition: background 0.2s;
+}
+button:hover {
+  background: #2b6cb0;
+}
+.calc-result {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2b6cb0;
+  margin-top: 0.7rem;
+}
+.footer-info {
+  background: #f3f6fa;
+  color: #666;
+  font-size: 0.98rem;
+  text-align: center;
+  padding: 1.2rem 0 1.5rem 0;
+  border-radius: 1.2rem 1.2rem 0 0;
+  margin-top: 2rem;
+}
+@media (max-width: 600px) {
+  main {
+    max-width: 100vw;
+    padding: 0 0.3rem 2rem 0.3rem;
+  }
+  .gift-list {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .gift-card img {
+    width: 90vw;
+    max-width: 180px;
+    height: 40px;
+  }
+}
+
+.logo-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.5rem auto;
+}
+.main-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  margin-bottom: 0.2rem;
+}
+.main-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #2b6cb0;
+  letter-spacing: 0.02em;
+}
+
+.footer-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  background: #f3f6fa;
+  border-radius: 1.2rem 1.2rem 0 0;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  min-width: 180px;
+}
+.footer-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  margin-bottom: 0.2rem;
+}
+.footer-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2b6cb0;
+}
+.footer-contact {
+  font-size: 0.98rem;
+  color: #444;
+  margin-bottom: 0.3rem;
+}
+.footer-biz {
+  font-size: 0.92rem;
+  color: #888;
+  line-height: 1.5;
+}
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.7rem;
+  min-width: 120px;
+  margin-top: 0.5rem;
+}
+.footer-right a {
+  color: #4a90e2;
+  font-size: 1rem;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.footer-right a:hover {
+  color: #2b6cb0;
+}
+@media (max-width: 600px) {
+  .footer-flex {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.2rem;
+    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+  }
+  .footer-right {
+    align-items: flex-start;
+    margin-top: 0.7rem;
+  }
+  .main-logo {
+    width: 40px;
+    height: 40px;
+  }
+} 
