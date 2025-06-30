@@ -118,17 +118,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 모달 열기
   buyCta.addEventListener('click', () => {
-    buyModal.style.display = 'flex';
+    buyModal.classList.add('show');
     buyAccountInfo.style.display = 'none';
     buyForm.reset();
   });
   // 모달 닫기 (X 버튼)
   buyModalClose.addEventListener('click', () => {
-    buyModal.style.display = 'none';
+    buyModal.classList.remove('show');
   });
   // 모달 닫기 (바깥 영역 클릭)
   buyModal.addEventListener('click', (e) => {
-    if (e.target === buyModal) buyModal.style.display = 'none';
+    if (e.target === buyModal) buyModal.classList.remove('show');
   });
   // 폼 제출 시 계좌정보 출력
   buyForm.addEventListener('submit', (e) => {
