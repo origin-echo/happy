@@ -92,6 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const buyUserName = document.getElementById('buy-user-name');
   const buyUserPhone = document.getElementById('buy-user-phone');
   const buyAccountInfo = document.getElementById('buy-account-info');
+  const buyAmountInput = document.getElementById('buy-amount');
+  const amountBtns = document.querySelectorAll('.amount-btn');
+  const amountClearBtn = document.querySelector('.amount-clear-btn');
 
   // 모달 열기
   buyCta.addEventListener('click', () => {
@@ -107,13 +110,24 @@ document.addEventListener('DOMContentLoaded', () => {
   buyModal.addEventListener('click', (e) => {
     if (e.target === buyModal) buyModal.classList.remove('show');
   });
+  // 금액 버튼 클릭 시 buy-amount input에 해당 값 입력
+  amountBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buyAmountInput.value = btn.dataset.amount;
+    });
+  });
+  // 휴지통 버튼 클릭 시 buy-amount input 비움
+  amountClearBtn.addEventListener('click', () => {
+    buyAmountInput.value = '';
+  });
   // 폼 제출 시 계좌정보 출력
   buyForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = buyUserName.value.trim();
     const phone = buyUserPhone.value.trim();
-    if (!name || !phone) {
-      alert('이름과 연락처를 입력해주세요.');
+    const amount = buyAmountInput.value.trim();
+    if (!name || !phone || !amount) {
+      alert('이름, 연락처, 금액을 모두 입력해주세요.');
       return;
     }
     // 예시 계좌정보
